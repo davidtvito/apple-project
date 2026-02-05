@@ -27,4 +27,16 @@ public class IphoneService {
     public void delete(Iphone iphone) {
         repository.delete(iphone);
     }
+
+    public Iterable<Iphone> findByColor(String color) {
+        return repository.findByColor(color);
+    }
+
+    public Iterable<Iphone> findByStorageGb(Integer storageGb) {
+        return repository.findByStorageGb(storageGb);
+    }
+
+    public Iterable<Iphone> findByPriceLessThan(Double price) {
+        return repository.findByPriceLessThan(price);
+    }
 }

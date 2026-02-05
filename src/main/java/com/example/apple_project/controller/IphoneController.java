@@ -48,4 +48,20 @@ public class IphoneController {
         iphoneService.delete(dbIphone.get());
         return new ResponseEntity<>("DELETED", HttpStatus.OK);
     }
+
+    @GetMapping("/color/{color}")
+    public ResponseEntity<?> getByColor(@PathVariable String color) {
+        return new ResponseEntity<>(iphoneService.findByColor(color), HttpStatus.OK);
+    }
+
+    @GetMapping("/storage/{storageGb}")
+    public ResponseEntity<?> getByStorage(@PathVariable Integer storageGb) {
+        return new ResponseEntity<>(iphoneService.findByStorageGb(storageGb), HttpStatus.OK);
+    }
+
+    @GetMapping("/price/less/{price}")
+    public ResponseEntity<?> getByPriceLess(@PathVariable Double price) {
+        return new ResponseEntity<>(iphoneService.findByPriceLessThan(price), HttpStatus.OK);
+    }
+
 }
