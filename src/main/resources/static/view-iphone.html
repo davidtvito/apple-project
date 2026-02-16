@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>פרטי iPhone</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', sans-serif;
+            background: #f5f5f7;
+            min-height: 100vh;
+            padding: 0;
+            color: #1d1d1f;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 22px;
+        }
+
+        /* Apple Navigation Bar */
+        .nav-bar {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: saturate(180%) blur(20px);
+            border-bottom: 1px solid #d2d2d7;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 12px 0;
+        }
+
+        .nav-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 22px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back-link {
+            color: #0071e3;
+            text-decoration: none;
+            font-size: 17px;
+            font-weight: 400;
+            transition: opacity 0.2s;
+        }
+
+        .back-link:hover {
+            opacity: 0.7;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: white;
+            padding: 80px 0;
+            text-align: center;
+            border-bottom: 1px solid #d2d2d7;
+        }
+
+        .hero-icon {
+            font-size: 100px;
+            margin-bottom: 24px;
+        }
+
+        .hero-model {
+            font-size: 56px;
+            font-weight: 600;
+            color: #1d1d1f;
+            letter-spacing: -1.2px;
+            margin-bottom: 12px;
+        }
+
+        .hero-color {
+            display: inline-block;
+            padding: 8px 24px;
+            background: #f5f5f7;
+            color: #1d1d1f;
+            border-radius: 980px;
+            font-size: 17px;
+            font-weight: 400;
+            margin-bottom: 32px;
+        }
+
+        .hero-price-label {
+            font-size: 17px;
+            color: #86868b;
+            margin-bottom: 8px;
+        }
+
+        .hero-price {
+            font-size: 48px;
+            font-weight: 600;
+            color: #1d1d1f;
+            letter-spacing: -1px;
+        }
+
+        /* Content Section */
+        .content-section {
+            padding: 60px 0;
+        }
+
+        .specs-title {
+            font-size: 40px;
+            font-weight: 600;
+            color: #1d1d1f;
+            letter-spacing: -0.8px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .spec-card {
+            background: white;
+            padding: 40px;
+            border-radius: 18px;
+            text-align: center;
+            border: 1px solid #d2d2d7;
+            transition: transform 0.2s;
+        }
+
+        .spec-card:hover {
+            transform: scale(1.02);
+        }
+
+        .spec-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .spec-label {
+            font-size: 14px;
+            color: #86868b;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            font-weight: 500;
+        }
+
+        .spec-value {
+            font-size: 40px;
+            font-weight: 600;
+            color: #1d1d1f;
+            letter-spacing: -0.8px;
+        }
+
+        .spec-unit {
+            font-size: 24px;
+            color: #86868b;
+            font-weight: 400;
+        }
+
+        .info-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .info-card {
+            background: white;
+            padding: 32px;
+            border-radius: 18px;
+            border: 1px solid #d2d2d7;
+        }
+
+        .info-card h3 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1d1d1f;
+            margin-bottom: 12px;
+            letter-spacing: -0.3px;
+        }
+
+        .info-card p {
+            font-size: 17px;
+            color: #86868b;
+            line-height: 1.6;
+        }
+
+        .actions-section {
+            display: flex;
+            gap: 12px;
+            margin-top: 60px;
+            justify-content: center;
+            padding: 60px 0;
+            border-top: 1px solid #d2d2d7;
+        }
+
+        .btn {
+            padding: 14px 32px;
+            border: none;
+            border-radius: 980px;
+            font-size: 17px;
+            font-weight: 400;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: #0071e3;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0077ed;
+        }
+
+        .btn-danger {
+            background: transparent;
+            color: #d13032;
+            border: 1px solid #d2d2d7;
+        }
+
+        .btn-danger:hover {
+            background: #fcf1f1;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #0071e3;
+            border: 1px solid #d2d2d7;
+        }
+
+        .btn-secondary:hover {
+            background: #f5f5f7;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 100px;
+            color: #86868b;
+            font-size: 17px;
+        }
+
+        .error-box {
+            background: white;
+            padding: 80px 40px;
+            border-radius: 18px;
+            text-align: center;
+            border: 1px solid #d2d2d7;
+            margin: 60px 0;
+        }
+
+        .error-box h2 {
+            color: #d13032;
+            font-size: 40px;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        .error-box p {
+            color: #86868b;
+            font-size: 17px;
+            margin-bottom: 32px;
+        }
+
+        @media (max-width: 768px) {
+            .hero-model {
+                font-size: 40px;
+            }
+
+            .hero-price {
+                font-size: 40px;
+            }
+
+            .specs-title {
+                font-size: 32px;
+            }
+
+            .specs-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .actions-section {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Apple Navigation Bar -->
+    <nav class="nav-bar">
+        <div class="nav-content">
+            <a href="index.html" class="back-link">← כל המכשירים</a>
+        </div>
+    </nav>
+
+    <div id="loadingDiv" class="loading">טוען...</div>
+    
+    <div id="errorDiv" style="display: none;">
+        <div class="container">
+            <div class="error-box">
+                <h2>שגיאה</h2>
+                <p id="errorMessage"></p>
+                <a href="index.html" class="btn btn-secondary">חזרה</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="iphoneDetailsDiv" style="display: none;">
+        <!-- תוכן יוזרק דינמית -->
+    </div>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:8080/api/iphone';
+        let currentIphone = null;
+
+        // טעינת נתונים בטעינת הדף
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const iphoneId = urlParams.get('id');
+
+            if (!iphoneId) {
+                showError('לא נמצא מזהה אייפון');
+                return;
+            }
+
+            loadIphoneDetails(iphoneId);
+        });
+
+        // טעינת פרטי אייפון
+        async function loadIphoneDetails(id) {
+            try {
+                showLoading(true);
+                const response = await fetch(`${API_BASE_URL}/${id}`);
+
+                if (!response.ok) {
+                    throw new Error('האייפון לא נמצא במערכת');
+                }
+
+                currentIphone = await response.json();
+                displayIphoneDetails();
+                showLoading(false);
+
+            } catch (error) {
+                showError(error.message);
+                showLoading(false);
+            }
+        }
+
+        // הצגת פרטי אייפון
+        function displayIphoneDetails() {
+            const detailsDiv = document.getElementById('iphoneDetailsDiv');
+            
+            detailsDiv.innerHTML = `
+                <div class="hero-section">
+                    <div class="container">
+                        <div class="hero-icon">📱</div>
+                        <h1 class="hero-model">${currentIphone.model}</h1>
+                        <div class="hero-color">${currentIphone.color}</div>
+                        <div class="hero-price-label">החל מ-</div>
+                        <div class="hero-price">₪${currentIphone.price.toLocaleString()}</div>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <div class="container">
+                        <h2 class="specs-title">מפרט טכני</h2>
+                        
+                        <div class="specs-grid">
+                            <div class="spec-card">
+                                <div class="spec-icon">💾</div>
+                                <div class="spec-label">אחסון</div>
+                                <div class="spec-value">
+                                    ${currentIphone.storageGb}<span class="spec-unit">GB</span>
+                                </div>
+                            </div>
+
+                            <div class="spec-card">
+                                <div class="spec-icon">📷</div>
+                                <div class="spec-label">מצלמות</div>
+                                <div class="spec-value">
+                                    ${currentIphone.cameraCount}
+                                </div>
+                            </div>
+
+                            <div class="spec-card">
+                                <div class="spec-icon">🔋</div>
+                                <div class="spec-label">סוללה</div>
+                                <div class="spec-value">
+                                    ${currentIphone.batteryMah.toLocaleString()}<span class="spec-unit">mAh</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="info-cards">
+                            ${getBatteryInfoCard(currentIphone.batteryMah)}
+                            ${getStorageInfoCard(currentIphone.storageGb)}
+                        </div>
+
+                        <div class="actions-section">
+                            <button class="btn btn-primary" onclick="editIphone()">
+                                ערוך מכשיר
+                            </button>
+                            <button class="btn btn-danger" onclick="deleteIphone()">
+                                מחק מכשיר
+                            </button>
+                            <a href="index.html" class="btn btn-secondary">
+                                חזרה
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            detailsDiv.style.display = 'block';
+        }
+
+        // מידע על הסוללה
+        function getBatteryInfoCard(batteryMah) {
+            let message = '';
+            
+            if (batteryMah >= 5000) {
+                message = 'סוללה מעולה. מספיק לשימוש אינטנסיבי למשך יום שלם ויותר.';
+            } else if (batteryMah >= 4000) {
+                message = 'סוללה טובה מאוד. מתאים לשימוש יומיומי רגיל.';
+            } else if (batteryMah >= 3000) {
+                message = 'סוללה סבירה. מתאים למשתמשים בעלי צריכה בינונית.';
+            } else {
+                message = 'סוללה קטנה יחסית. מומלץ לשימוש קל או עם power bank.';
+            }
+
+            return `
+                <div class="info-card">
+                    <h3>חיי סוללה</h3>
+                    <p>${message}</p>
+                </div>
+            `;
+        }
+
+        // מידע על האחסון
+        function getStorageInfoCard(storageGb) {
+            let message = '';
+            
+            if (storageGb >= 512) {
+                message = 'נפח אחסון ענק. מושלם למקצוענים, צלמים ושימוש אינטנסיבי באפליקציות.';
+            } else if (storageGb >= 256) {
+                message = 'נפח אחסון מצוין. מתאים לרוב המשתמשים עם צרכי מדיה גבוהים.';
+            } else if (storageGb >= 128) {
+                message = 'נפח אחסון סטנדרטי. מספיק למשתמש ממוצע עם צריכה בינונית.';
+            } else {
+                message = 'נפח אחסון בסיסי. מתאים למשתמשים חסכוניים או עם שימוש ב-iCloud.';
+            }
+
+            return `
+                <div class="info-card">
+                    <h3>קיבולת אחסון</h3>
+                    <p>${message}</p>
+                </div>
+            `;
+        }
+
+        // מעבר לעריכה
+        function editIphone() {
+            window.location.href = `add-iphone.html?id=${currentIphone.id}`;
+        }
+
+        // מחיקת אייפון
+        async function deleteIphone() {
+            const confirmMessage = `האם למחוק את ${currentIphone.model}?\nפעולה זו אינה ניתנת לביטול.`;
+            
+            if (!confirm(confirmMessage)) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/${currentIphone.id}`, {
+                    method: 'DELETE'
+                });
+
+                if (!response.ok) {
+                    throw new Error('שגיאה במחיקת המכשיר');
+                }
+
+                alert('המכשיר נמחק בהצלחה');
+                window.location.href = 'index.html';
+
+            } catch (error) {
+                alert('שגיאה: ' + error.message);
+            }
+        }
+
+        // הצגת מצב טעינה
+        function showLoading(show) {
+            document.getElementById('loadingDiv').style.display = show ? 'block' : 'none';
+            document.getElementById('iphoneDetailsDiv').style.display = show ? 'none' : 'block';
+            document.getElementById('errorDiv').style.display = 'none';
+        }
+
+        // הצגת שגיאה
+        function showError(message) {
+            document.getElementById('errorMessage').textContent = message;
+            document.getElementById('errorDiv').style.display = 'block';
+            document.getElementById('loadingDiv').style.display = 'none';
+            document.getElementById('iphoneDetailsDiv').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
