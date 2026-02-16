@@ -320,198 +320,198 @@
     </div>
 
     <script>
-        const API_BASE_URL = 'http://localhost:8080/api/iphone';
-        let currentIphone = null;
+        const API_BASE_URL = 'http://localhost:8081/api/iphone';  // במקום 8080
+         let currentIphone = null;
 
-        // טעינת נתונים בטעינת הדף
-        window.addEventListener('DOMContentLoaded', () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const iphoneId = urlParams.get('id');
+         // טעינת נתונים בטעינת הדף
+         window.addEventListener('DOMContentLoaded', () => {
+             const urlParams = new URLSearchParams(window.location.search);
+             const iphoneId = urlParams.get('id');
 
-            if (!iphoneId) {
-                showError('לא נמצא מזהה אייפון');
-                return;
-            }
+             if (!iphoneId) {
+                 showError('לא נמצא מזהה אייפון');
+                 return;
+             }
 
-            loadIphoneDetails(iphoneId);
-        });
+             loadIphoneDetails(iphoneId);
+         });
 
-        // טעינת פרטי אייפון
-        async function loadIphoneDetails(id) {
-            try {
-                showLoading(true);
-                const response = await fetch(`${API_BASE_URL}/${id}`);
+         // טעינת פרטי אייפון
+         async function loadIphoneDetails(id) {
+             try {
+                 showLoading(true);
+                 const response = await fetch(`${API_BASE_URL}/${id}`);
 
-                if (!response.ok) {
-                    throw new Error('האייפון לא נמצא במערכת');
-                }
+                 if (!response.ok) {
+                     throw new Error('האייפון לא נמצא במערכת');
+                 }
 
-                currentIphone = await response.json();
-                displayIphoneDetails();
-                showLoading(false);
+                 currentIphone = await response.json();
+                 displayIphoneDetails();
+                 showLoading(false);
 
-            } catch (error) {
-                showError(error.message);
-                showLoading(false);
-            }
-        }
+             } catch (error) {
+                 showError(error.message);
+                 showLoading(false);
+             }
+         }
 
-        // הצגת פרטי אייפון
-        function displayIphoneDetails() {
-            const detailsDiv = document.getElementById('iphoneDetailsDiv');
-            
-            detailsDiv.innerHTML = `
-                <div class="hero-section">
-                    <div class="container">
-                        <div class="hero-icon">📱</div>
-                        <h1 class="hero-model">${currentIphone.model}</h1>
-                        <div class="hero-color">${currentIphone.color}</div>
-                        <div class="hero-price-label">החל מ-</div>
-                        <div class="hero-price">₪${currentIphone.price.toLocaleString()}</div>
-                    </div>
-                </div>
+         // הצגת פרטי אייפון
+         function displayIphoneDetails() {
+             const detailsDiv = document.getElementById('iphoneDetailsDiv');
 
-                <div class="content-section">
-                    <div class="container">
-                        <h2 class="specs-title">מפרט טכני</h2>
-                        
-                        <div class="specs-grid">
-                            <div class="spec-card">
-                                <div class="spec-icon">💾</div>
-                                <div class="spec-label">אחסון</div>
-                                <div class="spec-value">
-                                    ${currentIphone.storageGb}<span class="spec-unit">GB</span>
-                                </div>
-                            </div>
+             detailsDiv.innerHTML = `
+                 <div class="hero-section">
+                     <div class="container">
+                         <div class="hero-icon">📱</div>
+                         <h1 class="hero-model">${currentIphone.model}</h1>
+                         <div class="hero-color">${currentIphone.color}</div>
+                         <div class="hero-price-label">החל מ-</div>
+                         <div class="hero-price">₪${currentIphone.price.toLocaleString()}</div>
+                     </div>
+                 </div>
 
-                            <div class="spec-card">
-                                <div class="spec-icon">📷</div>
-                                <div class="spec-label">מצלמות</div>
-                                <div class="spec-value">
-                                    ${currentIphone.cameraCount}
-                                </div>
-                            </div>
+                 <div class="content-section">
+                     <div class="container">
+                         <h2 class="specs-title">מפרט טכני</h2>
 
-                            <div class="spec-card">
-                                <div class="spec-icon">🔋</div>
-                                <div class="spec-label">סוללה</div>
-                                <div class="spec-value">
-                                    ${currentIphone.batteryMah.toLocaleString()}<span class="spec-unit">mAh</span>
-                                </div>
-                            </div>
-                        </div>
+                         <div class="specs-grid">
+                             <div class="spec-card">
+                                 <div class="spec-icon">💾</div>
+                                 <div class="spec-label">אחסון</div>
+                                 <div class="spec-value">
+                                     ${currentIphone.storageGb}<span class="spec-unit">GB</span>
+                                 </div>
+                             </div>
 
-                        <div class="info-cards">
-                            ${getBatteryInfoCard(currentIphone.batteryMah)}
-                            ${getStorageInfoCard(currentIphone.storageGb)}
-                        </div>
+                             <div class="spec-card">
+                                 <div class="spec-icon">📷</div>
+                                 <div class="spec-label">מצלמות</div>
+                                 <div class="spec-value">
+                                     ${currentIphone.cameraCount}
+                                 </div>
+                             </div>
 
-                        <div class="actions-section">
-                            <button class="btn btn-primary" onclick="editIphone()">
-                                ערוך מכשיר
-                            </button>
-                            <button class="btn btn-danger" onclick="deleteIphone()">
-                                מחק מכשיר
-                            </button>
-                            <a href="index.html" class="btn btn-secondary">
-                                חזרה
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            `;
+                             <div class="spec-card">
+                                 <div class="spec-icon">🔋</div>
+                                 <div class="spec-label">סוללה</div>
+                                 <div class="spec-value">
+                                     ${currentIphone.batteryMah.toLocaleString()}<span class="spec-unit">mAh</span>
+                                 </div>
+                             </div>
+                         </div>
 
-            detailsDiv.style.display = 'block';
-        }
+                         <div class="info-cards">
+                             ${getBatteryInfoCard(currentIphone.batteryMah)}
+                             ${getStorageInfoCard(currentIphone.storageGb)}
+                         </div>
 
-        // מידע על הסוללה
-        function getBatteryInfoCard(batteryMah) {
-            let message = '';
-            
-            if (batteryMah >= 5000) {
-                message = 'סוללה מעולה. מספיק לשימוש אינטנסיבי למשך יום שלם ויותר.';
-            } else if (batteryMah >= 4000) {
-                message = 'סוללה טובה מאוד. מתאים לשימוש יומיומי רגיל.';
-            } else if (batteryMah >= 3000) {
-                message = 'סוללה סבירה. מתאים למשתמשים בעלי צריכה בינונית.';
-            } else {
-                message = 'סוללה קטנה יחסית. מומלץ לשימוש קל או עם power bank.';
-            }
+                         <div class="actions-section">
+                             <button class="btn btn-primary" onclick="editIphone()">
+                                 ערוך מכשיר
+                             </button>
+                             <button class="btn btn-danger" onclick="deleteIphone()">
+                                 מחק מכשיר
+                             </button>
+                             <a href="index.html" class="btn btn-secondary">
+                                 חזרה
+                             </a>
+                         </div>
+                     </div>
+                 </div>
+             `;
 
-            return `
-                <div class="info-card">
-                    <h3>חיי סוללה</h3>
-                    <p>${message}</p>
-                </div>
-            `;
-        }
+             detailsDiv.style.display = 'block';
+         }
 
-        // מידע על האחסון
-        function getStorageInfoCard(storageGb) {
-            let message = '';
-            
-            if (storageGb >= 512) {
-                message = 'נפח אחסון ענק. מושלם למקצוענים, צלמים ושימוש אינטנסיבי באפליקציות.';
-            } else if (storageGb >= 256) {
-                message = 'נפח אחסון מצוין. מתאים לרוב המשתמשים עם צרכי מדיה גבוהים.';
-            } else if (storageGb >= 128) {
-                message = 'נפח אחסון סטנדרטי. מספיק למשתמש ממוצע עם צריכה בינונית.';
-            } else {
-                message = 'נפח אחסון בסיסי. מתאים למשתמשים חסכוניים או עם שימוש ב-iCloud.';
-            }
+         // מידע על הסוללה
+         function getBatteryInfoCard(batteryMah) {
+             let message = '';
 
-            return `
-                <div class="info-card">
-                    <h3>קיבולת אחסון</h3>
-                    <p>${message}</p>
-                </div>
-            `;
-        }
+             if (batteryMah >= 5000) {
+                 message = 'סוללה מעולה. מספיק לשימוש אינטנסיבי למשך יום שלם ויותר.';
+             } else if (batteryMah >= 4000) {
+                 message = 'סוללה טובה מאוד. מתאים לשימוש יומיומי רגיל.';
+             } else if (batteryMah >= 3000) {
+                 message = 'סוללה סבירה. מתאים למשתמשים בעלי צריכה בינונית.';
+             } else {
+                 message = 'סוללה קטנה יחסית. מומלץ לשימוש קל או עם power bank.';
+             }
 
-        // מעבר לעריכה
-        function editIphone() {
-            window.location.href = `add-iphone.html?id=${currentIphone.id}`;
-        }
+             return `
+                 <div class="info-card">
+                     <h3>חיי סוללה</h3>
+                     <p>${message}</p>
+                 </div>
+             `;
+         }
 
-        // מחיקת אייפון
-        async function deleteIphone() {
-            const confirmMessage = `האם למחוק את ${currentIphone.model}?\nפעולה זו אינה ניתנת לביטול.`;
-            
-            if (!confirm(confirmMessage)) {
-                return;
-            }
+         // מידע על האחסון
+         function getStorageInfoCard(storageGb) {
+             let message = '';
 
-            try {
-                const response = await fetch(`${API_BASE_URL}/${currentIphone.id}`, {
-                    method: 'DELETE'
-                });
+             if (storageGb >= 512) {
+                 message = 'נפח אחסון ענק. מושלם למקצוענים, צלמים ושימוש אינטנסיבי באפליקציות.';
+             } else if (storageGb >= 256) {
+                 message = 'נפח אחסון מצוין. מתאים לרוב המשתמשים עם צרכי מדיה גבוהים.';
+             } else if (storageGb >= 128) {
+                 message = 'נפח אחסון סטנדרטי. מספיק למשתמש ממוצע עם צריכה בינונית.';
+             } else {
+                 message = 'נפח אחסון בסיסי. מתאים למשתמשים חסכוניים או עם שימוש ב-iCloud.';
+             }
 
-                if (!response.ok) {
-                    throw new Error('שגיאה במחיקת המכשיר');
-                }
+             return `
+                 <div class="info-card">
+                     <h3>קיבולת אחסון</h3>
+                     <p>${message}</p>
+                 </div>
+             `;
+         }
 
-                alert('המכשיר נמחק בהצלחה');
-                window.location.href = 'index.html';
+         // מעבר לעריכה
+         function editIphone() {
+             window.location.href = `add-iphone.html?id=${currentIphone.id}`;
+         }
 
-            } catch (error) {
-                alert('שגיאה: ' + error.message);
-            }
-        }
+         // מחיקת אייפון
+         async function deleteIphone() {
+             const confirmMessage = `האם למחוק את ${currentIphone.model}?\nפעולה זו אינה ניתנת לביטול.`;
 
-        // הצגת מצב טעינה
-        function showLoading(show) {
-            document.getElementById('loadingDiv').style.display = show ? 'block' : 'none';
-            document.getElementById('iphoneDetailsDiv').style.display = show ? 'none' : 'block';
-            document.getElementById('errorDiv').style.display = 'none';
-        }
+             if (!confirm(confirmMessage)) {
+                 return;
+             }
 
-        // הצגת שגיאה
-        function showError(message) {
-            document.getElementById('errorMessage').textContent = message;
-            document.getElementById('errorDiv').style.display = 'block';
-            document.getElementById('loadingDiv').style.display = 'none';
-            document.getElementById('iphoneDetailsDiv').style.display = 'none';
-        }
+             try {
+                 const response = await fetch(`${API_BASE_URL}/${currentIphone.id}`, {
+                     method: 'DELETE'
+                 });
+
+                 if (!response.ok) {
+                     throw new Error('שגיאה במחיקת המכשיר');
+                 }
+
+                 alert('המכשיר נמחק בהצלחה');
+                 window.location.href = 'index.html';
+
+             } catch (error) {
+                 alert('שגיאה: ' + error.message);
+             }
+         }
+
+         // הצגת מצב טעינה
+         function showLoading(show) {
+             document.getElementById('loadingDiv').style.display = show ? 'block' : 'none';
+             document.getElementById('iphoneDetailsDiv').style.display = show ? 'none' : 'block';
+             document.getElementById('errorDiv').style.display = 'none';
+         }
+
+         // הצגת שגיאה
+         function showError(message) {
+             document.getElementById('errorMessage').textContent = message;
+             document.getElementById('errorDiv').style.display = 'block';
+             document.getElementById('loadingDiv').style.display = 'none';
+             document.getElementById('iphoneDetailsDiv').style.display = 'none';
+         }
     </script>
 </body>
 </html>

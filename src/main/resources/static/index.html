@@ -501,202 +501,202 @@
     </div>
 
     <script>
-        const API_BASE_URL = 'http://localhost:8080/api/iphone';
-        let allIphones = [];
-        let filteredIphones = [];
+        const API_BASE_URL = 'http://localhost:8081/api/iphone';
+         let allIphones = [];
+         let filteredIphones = [];
 
-        // טעינת נתונים בטעינת הדף
-        window.addEventListener('DOMContentLoaded', () => {
-            loadAllIphones();
-            setupEventListeners();
-        });
+         // טעינת נתונים בטעינת הדף
+         window.addEventListener('DOMContentLoaded', () => {
+             loadAllIphones();
+             setupEventListeners();
+         });
 
-        // הגדרת event listeners
-        function setupEventListeners() {
-            document.getElementById('searchInput').addEventListener('input', applyFilters);
-            document.getElementById('colorFilter').addEventListener('change', applyFilters);
-            document.getElementById('storageFilter').addEventListener('change', applyFilters);
-            document.getElementById('maxPriceFilter').addEventListener('input', applyFilters);
-        }
+         // הגדרת event listeners
+         function setupEventListeners() {
+             document.getElementById('searchInput').addEventListener('input', applyFilters);
+             document.getElementById('colorFilter').addEventListener('change', applyFilters);
+             document.getElementById('storageFilter').addEventListener('change', applyFilters);
+             document.getElementById('maxPriceFilter').addEventListener('input', applyFilters);
+         }
 
-        // טעינת כל האייפונים
-        async function loadAllIphones() {
-            try {
-                showLoading(true);
-                const response = await fetch(`${API_BASE_URL}/all`);
-                
-                if (!response.ok) {
-                    throw new Error('שגיאה בטעינת הנתונים');
-                }
-                
-                allIphones = await response.json();
-                filteredIphones = [...allIphones];
-                
-                // עדכון רשימת הצבעים בפילטר
-                updateColorFilter();
-                
-                displayIphones();
-                showLoading(false);
-            } catch (error) {
-                showError('שגיאה בטעינת הנתונים: ' + error.message);
-                showLoading(false);
-            }
-        }
+         // טעינת כל האייפונים
+         async function loadAllIphones() {
+             try {
+                 showLoading(true);
+                 const response = await fetch(`${API_BASE_URL}/all`);
 
-        // עדכון רשימת הצבעים בפילטר
-        function updateColorFilter() {
-            const colors = [...new Set(allIphones.map(iphone => iphone.color))];
-            const colorFilter = document.getElementById('colorFilter');
-            
-            colors.forEach(color => {
-                const option = document.createElement('option');
-                option.value = color;
-                option.textContent = color;
-                colorFilter.appendChild(option);
-            });
-        }
+                 if (!response.ok) {
+                     throw new Error('שגיאה בטעינת הנתונים');
+                 }
 
-        // החלת פילטרים
-        function applyFilters() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            const colorFilter = document.getElementById('colorFilter').value;
-            const storageFilter = document.getElementById('storageFilter').value;
-            const maxPrice = document.getElementById('maxPriceFilter').value;
+                 allIphones = await response.json();
+                 filteredIphones = [...allIphones];
 
-            filteredIphones = allIphones.filter(iphone => {
-                // פילטר חיפוש טקסט
-                const matchesSearch = iphone.model.toLowerCase().includes(searchTerm) || 
-                                     iphone.color.toLowerCase().includes(searchTerm);
-                
-                // פילטר צבע
-                const matchesColor = !colorFilter || iphone.color === colorFilter;
-                
-                // פילטר נפח
-                const matchesStorage = !storageFilter || iphone.storageGb === parseInt(storageFilter);
-                
-                // פילטר מחיר
-                const matchesPrice = !maxPrice || iphone.price <= parseFloat(maxPrice);
+                 // עדכון רשימת הצבעים בפילטר
+                 updateColorFilter();
 
-                return matchesSearch && matchesColor && matchesStorage && matchesPrice;
-            });
+                 displayIphones();
+                 showLoading(false);
+             } catch (error) {
+                 showError('שגיאה בטעינת הנתונים: ' + error.message);
+                 showLoading(false);
+             }
+         }
 
-            displayIphones();
-        }
+         // עדכון רשימת הצבעים בפילטר
+         function updateColorFilter() {
+             const colors = [...new Set(allIphones.map(iphone => iphone.color))];
+             const colorFilter = document.getElementById('colorFilter');
 
-        // איפוס פילטרים
-        function resetFilters() {
-            document.getElementById('searchInput').value = '';
-            document.getElementById('colorFilter').value = '';
-            document.getElementById('storageFilter').value = '';
-            document.getElementById('maxPriceFilter').value = '';
-            filteredIphones = [...allIphones];
-            displayIphones();
-        }
+             colors.forEach(color => {
+                 const option = document.createElement('option');
+                 option.value = color;
+                 option.textContent = color;
+                 colorFilter.appendChild(option);
+             });
+         }
 
-        // הצגת אייפונים
-        function displayIphones() {
-            const grid = document.getElementById('iphonesGrid');
-            
-            if (filteredIphones.length === 0) {
-                grid.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-state-icon">📱</div>
-                        <h3>לא נמצאו מוצרים</h3>
-                        <p>נסה לשנות את הפילטרים או הוסף iPhone חדש למערכת</p>
-                        <a href="add-iphone.html" class="btn btn-primary">הוסף iPhone</a>
-                    </div>
-                `;
-                return;
-            }
+         // החלת פילטרים
+         function applyFilters() {
+             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+             const colorFilter = document.getElementById('colorFilter').value;
+             const storageFilter = document.getElementById('storageFilter').value;
+             const maxPrice = document.getElementById('maxPriceFilter').value;
 
-            grid.innerHTML = filteredIphones.map(iphone => `
-                <div class="iphone-card" onclick="viewIphone(${iphone.id})">
-                    <div class="iphone-card-image">
-                        <span class="iphone-color-tag">${iphone.color}</span>
-                    </div>
-                    
-                    <div class="iphone-card-content">
-                        <h3 class="iphone-model">${iphone.model}</h3>
-                        <p class="iphone-tagline">נפח ${iphone.storageGb}GB</p>
-                        
-                        <div class="iphone-specs">
-                            <div class="spec-item">
-                                <div class="spec-icon">💾</div>
-                                <span class="spec-value">${iphone.storageGb}GB</span>
-                                <span class="spec-label">אחסון</span>
-                            </div>
-                            <div class="spec-item">
-                                <div class="spec-icon">📷</div>
-                                <span class="spec-value">${iphone.cameraCount}</span>
-                                <span class="spec-label">מצלמות</span>
-                            </div>
-                            <div class="spec-item">
-                                <div class="spec-icon">🔋</div>
-                                <span class="spec-value">${iphone.batteryMah}</span>
-                                <span class="spec-label">mAh</span>
-                            </div>
-                        </div>
-                        
-                        <div class="iphone-price-label">החל מ-</div>
-                        <div class="iphone-price">₪${iphone.price.toLocaleString()}</div>
-                        
-                        <div class="iphone-actions">
-                            <button class="btn btn-edit" onclick="event.stopPropagation(); editIphone(${iphone.id})">עריכה</button>
-                            <button class="btn btn-danger" onclick="event.stopPropagation(); deleteIphone(${iphone.id})">מחיקה</button>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        }
+             filteredIphones = allIphones.filter(iphone => {
+                 // פילטר חיפוש טקסט
+                 const matchesSearch = iphone.model.toLowerCase().includes(searchTerm) ||
+                                      iphone.color.toLowerCase().includes(searchTerm);
 
-        // הצגת מצב טעינה
-        function showLoading(show) {
-            document.getElementById('loadingDiv').style.display = show ? 'block' : 'none';
-            document.getElementById('iphonesGrid').style.display = show ? 'none' : 'grid';
-        }
+                 // פילטר צבע
+                 const matchesColor = !colorFilter || iphone.color === colorFilter;
 
-        // הצגת שגיאה
-        function showError(message) {
-            const errorDiv = document.getElementById('errorDiv');
-            errorDiv.textContent = message;
-            errorDiv.style.display = 'block';
-            setTimeout(() => {
-                errorDiv.style.display = 'none';
-            }, 5000);
-        }
+                 // פילטר נפח
+                 const matchesStorage = !storageFilter || iphone.storageGb === parseInt(storageFilter);
 
-        // מעבר לדף צפייה
-        function viewIphone(id) {
-            window.location.href = `view-iphone.html?id=${id}`;
-        }
+                 // פילטר מחיר
+                 const matchesPrice = !maxPrice || iphone.price <= parseFloat(maxPrice);
 
-        // מעבר לדף עריכה
-        function editIphone(id) {
-            window.location.href = `add-iphone.html?id=${id}`;
-        }
+                 return matchesSearch && matchesColor && matchesStorage && matchesPrice;
+             });
 
-        // מחיקת אייפון
-        async function deleteIphone(id) {
-            if (!confirm('האם למחוק מכשיר זה?')) {
-                return;
-            }
+             displayIphones();
+         }
 
-            try {
-                const response = await fetch(`${API_BASE_URL}/${id}`, {
-                    method: 'DELETE'
-                });
+         // איפוס פילטרים
+         function resetFilters() {
+             document.getElementById('searchInput').value = '';
+             document.getElementById('colorFilter').value = '';
+             document.getElementById('storageFilter').value = '';
+             document.getElementById('maxPriceFilter').value = '';
+             filteredIphones = [...allIphones];
+             displayIphones();
+         }
 
-                if (!response.ok) {
-                    throw new Error('שגיאה במחיקת המכשיר');
-                }
+         // הצגת אייפונים
+         function displayIphones() {
+             const grid = document.getElementById('iphonesGrid');
 
-                // רענון הרשימה
-                loadAllIphones();
-                alert('המכשיר נמחק בהצלחה');
-            } catch (error) {
-                showError('שגיאה במחיקה: ' + error.message);
-            }
-        }
+             if (filteredIphones.length === 0) {
+                 grid.innerHTML = `
+                     <div class="empty-state">
+                         <div class="empty-state-icon">📱</div>
+                         <h3>לא נמצאו מוצרים</h3>
+                         <p>נסה לשנות את הפילטרים או הוסף iPhone חדש למערכת</p>
+                         <a href="add-iphone.html" class="btn btn-primary">הוסף iPhone</a>
+                     </div>
+                 `;
+                 return;
+             }
+
+             grid.innerHTML = filteredIphones.map(iphone => `
+                 <div class="iphone-card" onclick="viewIphone(${iphone.id})">
+                     <div class="iphone-card-image">
+                         <span class="iphone-color-tag">${iphone.color}</span>
+                     </div>
+
+                     <div class="iphone-card-content">
+                         <h3 class="iphone-model">${iphone.model}</h3>
+                         <p class="iphone-tagline">נפח ${iphone.storageGb}GB</p>
+
+                         <div class="iphone-specs">
+                             <div class="spec-item">
+                                 <div class="spec-icon">💾</div>
+                                 <span class="spec-value">${iphone.storageGb}GB</span>
+                                 <span class="spec-label">אחסון</span>
+                             </div>
+                             <div class="spec-item">
+                                 <div class="spec-icon">📷</div>
+                                 <span class="spec-value">${iphone.cameraCount}</span>
+                                 <span class="spec-label">מצלמות</span>
+                             </div>
+                             <div class="spec-item">
+                                 <div class="spec-icon">🔋</div>
+                                 <span class="spec-value">${iphone.batteryMah}</span>
+                                 <span class="spec-label">mAh</span>
+                             </div>
+                         </div>
+
+                         <div class="iphone-price-label">החל מ-</div>
+                         <div class="iphone-price">₪${iphone.price.toLocaleString()}</div>
+
+                         <div class="iphone-actions">
+                             <button class="btn btn-edit" onclick="event.stopPropagation(); editIphone(${iphone.id})">עריכה</button>
+                             <button class="btn btn-danger" onclick="event.stopPropagation(); deleteIphone(${iphone.id})">מחיקה</button>
+                         </div>
+                     </div>
+                 </div>
+             `).join('');
+         }
+
+         // הצגת מצב טעינה
+         function showLoading(show) {
+             document.getElementById('loadingDiv').style.display = show ? 'block' : 'none';
+             document.getElementById('iphonesGrid').style.display = show ? 'none' : 'grid';
+         }
+
+         // הצגת שגיאה
+         function showError(message) {
+             const errorDiv = document.getElementById('errorDiv');
+             errorDiv.textContent = message;
+             errorDiv.style.display = 'block';
+             setTimeout(() => {
+                 errorDiv.style.display = 'none';
+             }, 5000);
+         }
+
+         // מעבר לדף צפייה
+         function viewIphone(id) {
+             window.location.href = `view-iphone.html?id=${id}`;
+         }
+
+         // מעבר לדף עריכה
+         function editIphone(id) {
+             window.location.href = `add-iphone.html?id=${id}`;
+         }
+
+         // מחיקת אייפון
+         async function deleteIphone(id) {
+             if (!confirm('האם למחוק מכשיר זה?')) {
+                 return;
+             }
+
+             try {
+                 const response = await fetch(`${API_BASE_URL}/${id}`, {
+                     method: 'DELETE'
+                 });
+
+                 if (!response.ok) {
+                     throw new Error('שגיאה במחיקת המכשיר');
+                 }
+
+                 // רענון הרשימה
+                 loadAllIphones();
+                 alert('המכשיר נמחק בהצלחה');
+             } catch (error) {
+                 showError('שגיאה במחיקה: ' + error.message);
+             }
+         }
     </script>
 </body>
 </html>

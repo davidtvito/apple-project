@@ -12,6 +12,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/iphone")
+@CrossOrigin(origins = "*")
 public class IphoneController {
 
     @Autowired
@@ -63,5 +64,4 @@ public class IphoneController {
     public ResponseEntity<?> getByPriceLess(@PathVariable Double price) {
         return new ResponseEntity<>(iphoneService.findByPriceLessThan(price), HttpStatus.OK);
     }
-
 }
