@@ -37,6 +37,6 @@ public class IphoneService {
     }
 
     public Iterable<Iphone> findByPriceLessThan(Double price) {
-        return repositoryfindByPriceLessThan(price);
+        return repository.findByPriceLessThan(price);
     }
 }
