@@ -13,7 +13,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/iphone")
 @CrossOrigin(origins = "*")
-public class IphoneController {
+public class IphoneController
 
     @Autowired
     IphoneService iphoneService;
